@@ -1,16 +1,20 @@
 <template>
   <div>
     <div v-for="task in tasks" :key="task.id">
-      <h3>{{ task.text }}</h3>
+      <AppTask :task="task" />
     </div>
   </div>
 </template>
 
 <script>
+import AppTask from './Task.vue'
 export default {
   name: 'AppTasks',
   props: {
     tasks: Array,
+  },
+  components: {
+    AppTask,
   },
 }
 </script>
