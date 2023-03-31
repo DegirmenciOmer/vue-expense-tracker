@@ -20,25 +20,30 @@ export default {
   },
   components: { AppTasks, AddTask },
   methods: {
-    async addTask(task) {
+    addTask(task) {
       this.tasks = [...this.tasks, task]
+      localStorage.setItem('tasks', JSON.stringify(this.tasks))
     },
-    async deleteTask(id) {
+
+    deleteTask(id) {
       if (confirm('Are you sure')) {
         this.tasks = this.tasks.filter((task) => task.id !== id)
       }
+      localStorage.setItem('tasks', JSON.stringify(this.tasks))
     },
-    async toggleReminder(id) {
-      this.tasks.map((task) =>
+    toggleReminder(id) {
+      this.tasks = this.tasks.map((task) =>
         task.id === id ? { ...task, reminder: !task.reminder } : task
       )
+      localStorage.setItem('tasks', JSON.stringify(this.tasks))
     },
   },
   data() {
     return { tasks: [] }
   },
   async created() {
-    this.tasks = []
+    const localTasks = localStorage.getItem('tasks')
+    this.tasks = JSON.parse(localTasks) ?? []
   },
   emits: ['delete-task'],
 }
