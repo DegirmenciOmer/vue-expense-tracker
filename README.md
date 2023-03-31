@@ -1,7 +1,9 @@
 # vue-task-tracker
 
-### install
+### demo
+- https://vue-tracker-omer.netlify.app/
 
+### install
 - `cd tracker`
 - `npm install`
 
