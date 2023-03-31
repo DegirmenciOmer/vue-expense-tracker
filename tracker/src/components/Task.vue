@@ -3,10 +3,13 @@
     @dblclick="$emit('toggle-reminder', task.id)"
     :class="[task.reminder ? 'reminder' : '', 'task']"
   >
-    <h3>
-      {{ task.text }} <i @click="onDelete(task.id)" class="fas fa-times"></i>
-    </h3>
-    <p>{{ task.day }}</p>
+    <div>
+      <h3>
+        {{ task.text }}
+      </h3>
+      <p>{{ task.day }}</p>
+    </div>
+    <button @click="onDelete(task.id)"><i class="fas fa-times"></i></button>
   </div>
 </template>
 
@@ -32,6 +35,8 @@ export default {
   margin: 5px;
   padding: 10px 20px;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
 }
 .task.reminder {
   border-left: 5px solid green;
@@ -40,5 +45,14 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+button {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: #bbff0000;
+  cursor: pointer;
+  font-size: large;
 }
 </style>

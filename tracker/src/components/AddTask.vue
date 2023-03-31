@@ -7,7 +7,7 @@
     <div class="form-control">
       <label>Day & Time</label>
       <input
-        type="text"
+        type="datetime-local"
         v-model="day"
         name="day"
         placeholder="Add Day & Time"
@@ -39,10 +39,15 @@ export default {
         alert('Please add a task')
         return
       }
+      const date = new Date(this.day)
+      const europeanDatetime = date.toLocaleString('en-GB', {
+        dateStyle: 'full',
+        timeStyle: 'short',
+      })
       const newTask = {
-        // id: Math.floor(Math.random() * 1000000), //will be added by json server
+        id: Math.floor(Math.random() * 1000000), //will be added by json server
         text: this.text,
-        day: this.day,
+        day: europeanDatetime,
         reminder: this.reminder,
       }
 
