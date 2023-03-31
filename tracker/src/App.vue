@@ -5,96 +5,26 @@
       title="Task Tracker"
       :showAddTask="showAddTask"
     />
-    <div v-if="showAddTask">
-      <AddTask @add-task="addTask" />
-    </div>
-    <AppTasks
-      @toggle-reminder="toggleReminder"
-      @delete-task="deleteTask"
-      :tasks="tasks"
-    />
+
+    <router-view :showAddTask="showAddTask"></router-view><AppFooter />
   </div>
 </template>
 
 <script>
 import AppHeader from './components/Header'
-import AppTasks from './components/Tasks'
-import AddTask from './components/AddTask'
+import AppFooter from './components/Footer'
 
 export default {
   name: 'App',
-  components: { AppHeader, AppTasks, AddTask },
+  components: { AppHeader, AppFooter },
   data() {
-    return { tasks: this.tasks, showAddTask: false }
+    return { showAddTask: false }
   },
   methods: {
-    async addTask(task) {
-      const res = await fetch('api/tasks', {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify(task),
-      })
-
-      const data = await res.json()
-      console.log({ data })
-      this.tasks = [...this.tasks, data]
-    },
-    async deleteTask(id) {
-      if (confirm('Are you sure')) {
-        const res = await fetch(`api/tasks/${id}`, {
-          method: 'DELETE',
-        })
-
-        res.status === 200
-          ? (this.tasks = this.tasks.filter((task) => task.id !== id))
-          : alert('Delete is not successful')
-      }
-    },
-    async toggleReminder(id) {
-      const taskToToggle = await this.fetchTask(id)
-
-      const updatedTask = {
-        ...taskToToggle,
-        reminder: !taskToToggle.reminder,
-      }
-
-      const res = await fetch(`api/tasks/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify(updatedTask),
-      })
-
-      const data = await res.json()
-
-      // this.tasks[id - 1].reminder = !this.tasks[id - 1].reminder
-      // or
-      this.tasks = this.tasks.map((task) =>
-        task.id === id ? { ...task, reminder: data.reminder } : task
-      )
-    },
     toggleAddTask() {
       this.showAddTask = !this.showAddTask
     },
-    async fetchTasks() {
-      const res = await fetch('api/tasks')
-
-      const data = await res.json()
-
-      return data
-    },
-
-    async fetchTask(id) {
-      const res = await fetch(`api/tasks/${id}`)
-
-      const data = await res.json()
-
-      return data
-    },
   },
-  async created() {
-    this.tasks = await this.fetchTasks()
-  },
-  emits: ['delete-task'],
 }
 </script>
 

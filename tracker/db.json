@@ -10,13 +10,13 @@
       "id": "2",
       "text": "Groceries",
       "day": "25 march",
-      "reminder": false
+      "reminder": true
     },
     {
       "id": "3",
       "text": "Travel",
       "day": "23 april",
-      "reminder": false
+      "reminder": true
     }
   ]
 }
